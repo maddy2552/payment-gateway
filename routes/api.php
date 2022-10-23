@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\V1\PaymentWebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('payments/webhooks')->name('payments.webhooks.')->group(function () {
+    Route::post('/stripe', [PaymentWebhookController::class, 'handleStripeWebhook'])->name('stripe');
+    Route::post('/paypal', [PaymentWebhookController::class, 'handlePaypalWebhook'])->name('paypal');
 });

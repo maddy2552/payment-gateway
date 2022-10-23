@@ -153,8 +153,14 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'stripe' => [
+            'signature' => 'The :attribute must be a valid Stripe webhook signature.',
+            'merchant' => 'The :attribute must be a valid Stripe webhook merchant id.',
+        ],
+
+        'paypal' => [
+            'project' => 'The :attribute must be a valid Paypal webhook project id.',
+            'signature' => 'The :attribute must be a valid Paypal webhook signature.',
         ],
     ],
 

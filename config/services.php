@@ -32,6 +32,14 @@ return [
     ],
 
     'payment-gateway' => [
+        'stripe' => [
+            'merchant_id' => env('STRIPE_MERCHANT_ID'),
+            'merchant_key' => env('STRIPE_MERCHANT_KEY'),
+        ],
 
+        'paypal' => [
+            'app_id' => env('PAYPAL_APP_ID'),
+            'app_key' => env('PAYPAL_APP_KEY'),
+        ],
     ],
 ];
