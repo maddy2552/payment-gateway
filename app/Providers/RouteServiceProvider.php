@@ -47,7 +47,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting(): void
     {
-        RateLimiter::for('payment-webhook', static function (Request $request) {
+        RateLimiter::for('paypal-payment-webhook', static function (Request $request) {
+            return Limit::perDay(1000)->by($request->ip());
+        });
+
+        RateLimiter::for('stripe-payment-webhook', static function (Request $request) {
             return Limit::perDay(1000)->by($request->ip());
         });
     }
