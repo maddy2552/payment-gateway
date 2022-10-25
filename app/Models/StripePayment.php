@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use App\Enums\StripePaymentStatusEnum;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,6 +34,16 @@ class StripePayment extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'status',
+        'timestamp',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
@@ -41,7 +53,21 @@ class StripePayment extends Model
     ];
 
     /**
+     * Interact with the payment's timestamp.
+     *
+     * @return Attribute
+     */
+    protected function timestamp(): Attribute
+    {
+        return Attribute::make(
+            set: static fn ($value) => Carbon::createFromTimestamp($value),
+        );
+    }
+
+    /**
      * Get the stripe gateway's payment.
+     *
+     * @return MorphOne
      */
     public function payment(): MorphOne
     {

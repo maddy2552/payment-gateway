@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use Exception;
 use JetBrains\PhpStorm\Pure;
 use App\Rules\StripeMerchant;
 use App\Rules\StripeSignature;
 use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Validation\Rules\Enum;
 use App\Enums\StripePaymentStatusEnum;
+use App\Actions\LogPaymentWebhookPayloadAction;
 
 class StripeWebhookRequest extends BaseApiRequest
 {
@@ -45,5 +47,17 @@ class StripeWebhookRequest extends BaseApiRequest
                 new StripeSignature(),
             ],
         ];
+    }
+
+    /**
+     * Handle a passed validation attempt.
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function passedValidation(): void
+    {
+        $action = app(LogPaymentWebhookPayloadAction::class);
+        $action->handle($this->validated(), $this->validated()['payment_id']);
     }
 }

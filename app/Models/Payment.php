@@ -40,6 +40,16 @@ class Payment extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'amount',
+        'amount_paid',
+    ];
+
+    /**
      * Get the payment logs for the payment.
      */
     public function paymentLogs(): HasMany

@@ -31,6 +31,16 @@ class PaymentLog extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'webhook_payload',
+        'payment_id',
+    ];
+
+    /**
      * Get the payment that owns the payment log.
      */
     public function payment(): BelongsTo

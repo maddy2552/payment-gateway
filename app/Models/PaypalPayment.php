@@ -32,6 +32,16 @@ class PaypalPayment extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'status',
+        'rand',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array
