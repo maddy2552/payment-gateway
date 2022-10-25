@@ -15,7 +15,10 @@ use App\Http\Controllers\Api\V1\PaymentWebhookController;
 |
 */
 
-Route::prefix('payments/webhooks')->name('payments.webhooks.')->group(function () {
-    Route::post('/stripe', [PaymentWebhookController::class, 'handleStripeWebhook'])->name('stripe');
-    Route::post('/paypal', [PaymentWebhookController::class, 'handlePaypalWebhook'])->name('paypal');
-});
+Route::middleware('throttle:payment-webhook')
+    ->prefix('payments/webhooks')
+    ->name('payments.webhooks.')
+    ->group(function () {
+        Route::post('/stripe', [PaymentWebhookController::class, 'handleStripeWebhook'])->name('stripe');
+        Route::post('/paypal', [PaymentWebhookController::class, 'handlePaypalWebhook'])->name('paypal');
+    });

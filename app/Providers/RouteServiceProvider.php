@@ -24,12 +24,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')
+            Route::middleware(['api'])
                 ->prefix('api/v1')
                 ->as('api.')
                 ->namespace('Api\V1')
@@ -45,10 +45,10 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        RateLimiter::for('payment-webhook', static function (Request $request) {
+            return Limit::perDay(1000)->by($request->ip());
         });
     }
 }
