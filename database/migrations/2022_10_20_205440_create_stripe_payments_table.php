@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', static function (Blueprint $table) {
+        Schema::create('stripe_payments', static function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->enum('status', ['new', 'pending', 'completed', 'expired', 'rejected']);
+            $table->timestamp('timestamp');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('stripe_payments');
     }
 };

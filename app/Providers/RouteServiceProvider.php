@@ -24,13 +24,15 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')
-                ->prefix('api')
+            Route::middleware(['api'])
+                ->prefix('api/v1')
+                ->as('api.')
+                ->namespace('Api\V1')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
@@ -43,10 +45,14 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRateLimiting()
+    protected function configureRateLimiting(): void
     {
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        RateLimiter::for('paypal-payment-webhook', static function (Request $request) {
+            return Limit::perDay(1000)->by($request->ip());
+        });
+
+        RateLimiter::for('stripe-payment-webhook', static function (Request $request) {
+            return Limit::perDay(1000)->by($request->ip());
         });
     }
 }
