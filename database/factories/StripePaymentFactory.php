@@ -20,7 +20,7 @@ class StripePaymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'timestamp' => $this->faker->dateTime(),
+            'timestamp' => $this->faker->unixTime(),
             'status' => $this->faker->randomElement(StripePaymentStatusEnum::cases()),
         ];
     }
